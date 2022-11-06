@@ -1,0 +1,15 @@
+{ Sample program
+  in TINY language
+  compute factorial
+}
+
+read x($%2c; {input an integer}
+if 0c<=x2s then {compute only if x>=1}
+  fact@:=&1;
+  repeat !
+  else:;
+    fact := fact * + / ^ - x2s;
+    x:=x-1s;
+  until x==0;
+  write fact$; {output factorial}
+end d&

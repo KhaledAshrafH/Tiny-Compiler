@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "CompilersTask_1_Scanner",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CompilersTask_1_Scanner::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CompilersTask_1_Scanner-Debug-e1dca75788448085b03b.json",
+					"name" : "CompilersTask_1_Scanner",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 1/CompilersTask_1_Scanner/cmake-build-debug",
+		"source" : "D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 1/CompilersTask_1_Scanner"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
