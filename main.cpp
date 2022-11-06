@@ -262,9 +262,11 @@ int main() {
     stack<char> bracketsCheck;
     vector<pair<Token, int>> result;//extra
     cout<<"\nScanning Running Now.";
-    while (true) {
+    bool checkLoop=true;int lastLine=0;
+    while (checkLoop) {
         //this_thread::sleep_for(chrono::milliseconds(100));
         //cout<<'.';
+        endingPoint0:
         string str = file.GetNextTokenStr(),left="",right="",op="";;
         file.SkipSpaces();
         bool checkSemi=false;
@@ -388,7 +390,7 @@ int main() {
                         else if(tempStr==")"){
                             writeToken(symbolic_tokens[10],result,file.cur_line_num,file,fileOut,")");
                         }
-                        else if(tempStr!="\n" && tempStr!=" " && tempStr!=";" && tempStr!=""){
+                        else if((tempStr!="\n" && tempStr!=" " && tempStr!=";" && tempStr!="")|| (!IsDigit(tempStr[0]) && !IsLetterOrUnderscore(tempStr[0]) && (tempStr!="\n" && tempStr!=" " && tempStr!=";" && tempStr!=""))){
                             writeToken(24,result,file.cur_line_num,file,fileOut,tempStr);
                         }
 
@@ -408,6 +410,7 @@ int main() {
                         if(tempStr.size()!=left.size()){
                             //-----------------------------------------------op-----------------------------------------------
                             for(;j<tempStr.size();j++){
+                                while (tempStr[j]==' ') continue;
                                 if((tempStr[j]>=':' && tempStr[j]<='>') || (tempStr[j]>='(' && tempStr[j]<='/') || (tempStr[j]=='^')) {
                                     op+=tempStr[j];
 
@@ -443,6 +446,9 @@ int main() {
                                     }
                                     else if(op==")"){
                                         writeToken(symbolic_tokens[10],result,file.cur_line_num,file,fileOut,")");op="";
+                                    }
+                                    else if(op.size()==1 && op==":" &&  tempStr[j+1]!='=' && tempStr[j+1]!=' '){
+                                        writeToken(24,result,file.cur_line_num,file,fileOut, op);op="";
                                     }
                                 }
                                 else if(IsDigit(tempStr[j]) || IsLetterOrUnderscore(tempStr[j])) break;
@@ -467,12 +473,57 @@ int main() {
                             if((tempStr[j]>='A' && tempStr[j]<='Z') || (tempStr[j]>='a' && tempStr[j]<='z')) left+=tempStr[j];
                             else {break;}
                         }
-                        writeToken(21,result,file.cur_line_num,file,fileOut,left);
+                        if(left=="read") {
+                            writeToken(reserved_words[6],result,file.cur_line_num,file,fileOut,"read");
+                            //-------------------------------------variable read---------------------------
+//                    tempStr="";
+//                    i++;
+//                    while (str[i]!=';') {
+//                        tempStr += str[i++];
+//                    }
+//                    i--;
+//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
+//                    Token newToken(ID,finalStr2);
+//                    result.emplace_back(newToken,file.cur_ind);
+                        }
+                        else if(left=="write"){
+                            writeToken(reserved_words[7],result,file.cur_line_num,file,fileOut,"write");
+                            //-------------------------------------variable write---------------------------
+//                    tempStr="";
+//                    i++;
+//                    while (str[i]!=';') {
+//                        tempStr += str[i++];
+//                    }
+//                    i--;
+//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
+//                    Token newToken(ID,finalStr2);
+//                    result.emplace_back(newToken,file.cur_ind);
+                        }
+                        else if(left=="if"){
+                            writeToken(reserved_words[0],result,file.cur_line_num,file,fileOut,"if");
+                        }
+                        else if(left=="else"){
+                            writeToken(reserved_words[2],result,file.cur_line_num,file,fileOut,"else");
+                        }
+                        else if(left=="then"){
+                            writeToken(reserved_words[1],result,file.cur_line_num,file,fileOut,"then");
+                        }
+                        else if(left=="end"){
+                            writeToken(reserved_words[3],result,file.cur_line_num,file,fileOut,"end");
+                        }
+                        else if(left=="until"){
+                            writeToken(reserved_words[5],result,file.cur_line_num,file,fileOut,"until");
+                        }
+                        else if(left=="repeat"){
+                            writeToken(reserved_words[4],result,file.cur_line_num,file,fileOut,"repeat");
+                        }
+                        else writeToken(21,result,file.cur_line_num,file,fileOut,left);
 
                         cout<<left<<endl<<tempStr[j]<<endl;
                         if(tempStr.size()!=left.size()){
                             //-----------------------------------------------op-----------------------------------------------
                             for(;j<tempStr.size();j++){
+                                while (tempStr[j]==' ') continue;
                                 if((tempStr[j]>=':' && tempStr[j]<='>') || (tempStr[j]>='(' && tempStr[j]<='/') || (tempStr[j]=='^')) {
                                     op+=tempStr[j];
 
@@ -508,6 +559,9 @@ int main() {
                                     }
                                     else if(op==")"){
                                         writeToken(symbolic_tokens[10],result,file.cur_line_num,file,fileOut,")");op="";
+                                    }
+                                    else if(op.size()==1 && op==":" &&  tempStr[j+1]!='=' && tempStr[j+1]!=' '){
+                                        writeToken(24,result,file.cur_line_num,file,fileOut, op);op="";
                                     }
                                 }
                                 else if(IsDigit(tempStr[j]) || IsLetterOrUnderscore(tempStr[j])) break;
@@ -533,8 +587,9 @@ int main() {
         }
         file.SkipSpaces();
         file.GetNewLine();
-        if(feof(file.getFile())) {writeToken(23,result,file.cur_line_num,file,fileOut,TokenTypeStr[23]);break;}
+        if(feof(file.getFile()) && checkLoop) {lastLine=file.cur_line_num;checkLoop=false;goto endingPoint0;}
     }
+    writeToken(23,result,lastLine,file,fileOut,TokenTypeStr[23]);
     cout<<"\nScanning Process Completed Successfully."<<endl;
     return 0;
 }
