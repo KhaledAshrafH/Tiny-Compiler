@@ -12,4 +12,4 @@ if 0c<=x2s then {compute only if x>=1}
     x:=x-1s;
   until x==0;
   write fact$; {output factorial}
-end d&
+end d&

@@ -254,42 +254,70 @@ void writeToken(int tokenIdx,vector<pair<Token, int>>& result,int lineNum,const 
     fileOut.Out(finalStr);
 }
 
-int main() {
-    InFile file(
-            R"(D:\My Home\Courses\#My Faculty\Fourth Level\First Semester\Compilers\Assignments\Assignment 1\CompilersTask_1_Scanner\input.txt)");
-    OutFile fileOut(R"(D:\My Home\Courses\#My Faculty\Fourth Level\First Semester\Compilers\Assignments\Assignment 1\CompilersTask_1_Scanner\output.txt)");
+bool isReservedWord(string str,vector<pair<Token, int>>& result,int lineNum,const InFile& file,const OutFile& fileOut){
+    if(str=="read"){
+        writeToken(reserved_words[6],result,file.cur_line_num,file,fileOut,"read");
+        return true;
+    }
+
+    if(str=="write") {
+        writeToken(reserved_words[7], result, file.cur_line_num, file, fileOut, "write");
+        return true;
+    }
+
+    if(str=="if"){
+        writeToken(reserved_words[0],result,file.cur_line_num,file,fileOut,"if");
+        return true;
+    }
+
+    if(str=="else"){
+        writeToken(reserved_words[2],result,file.cur_line_num,file,fileOut,"else");
+        return true;
+    }
+
+    if(str=="then"){
+        writeToken(reserved_words[1],result,file.cur_line_num,file,fileOut,"then");
+        return true;
+    }
+
+    if(str=="end"){
+        writeToken(reserved_words[3],result,file.cur_line_num,file,fileOut,"end");
+        return true;
+    }
+
+    if(str=="until"){
+        writeToken(reserved_words[5],result,file.cur_line_num,file,fileOut,"until");
+        return true;
+    }
+
+    else if(str=="repeat"){
+        writeToken(reserved_words[4],result,file.cur_line_num,file,fileOut,"repeat");
+        return true;
+    }
+    return false;
+}
+void Scanner(InFile& file,OutFile& fileOut){
     file.GetNewLine();
-    stack<char> bracketsCheck;
+    //stack<char> bracketsCheck;
     vector<pair<Token, int>> result;//extra
     cout<<"\nScanning Running Now.";
     bool checkLoop=true;int lastLine=0;
     while (checkLoop) {
-        //this_thread::sleep_for(chrono::milliseconds(100));
-        //cout<<'.';
-        endingPoint0:
+        this_thread::sleep_for(chrono::milliseconds(100));cout<<'.'; //For printing
+        endingPoint0: // If we reach the end of the file
         string str = file.GetNextTokenStr(),left="",right="",op="";;
         file.SkipSpaces();
         bool checkSemi=false;
         for (int i = 0; i < str.size(); i++) {
             string tempStr;
+            // if the current character is '{'
             if (str[i] == '{') {
-                //bracketsCheck.push('{');
                 writeToken(symbolic_tokens[11],result,file.cur_line_num,file,fileOut,"{");
                 file.SkipUpto("}");
-                //bracketsCheck.pop();
                 i++;
                 writeToken(symbolic_tokens[12],result,file.cur_line_num,file,fileOut,"}");
                 break;
             }
-//            else if (!bracketsCheck.empty()) {
-//
-////                if (str[i] == '}') {
-////                    bracketsCheck.pop();
-//////                    i++;
-//////                    writeToken(symbolic_tokens[12],result,file.cur_line_num,file,fileOut,"}");
-////                }
-//                continue;
-//            }
             else{
                 tempStr = "";
                 while (str[i] != ' ' || str[i] !='\n') {
@@ -298,65 +326,23 @@ int main() {
                 }
                 i--;
                 if(tempStr[tempStr.size()-1]==';') {
-                    checkSemi=true;tempStr.pop_back();
-                }
-                if(tempStr[tempStr.size()-1]==' ' || tempStr[tempStr.size()-1]=='\n'){
+                    checkSemi=true;
                     tempStr.pop_back();
                 }
 
-                if(tempStr=="read") {
-                    writeToken(reserved_words[6],result,file.cur_line_num,file,fileOut,"read");
-                    //-------------------------------------variable read---------------------------
-//                    tempStr="";
-//                    i++;
-//                    while (str[i]!=';') {
-//                        tempStr += str[i++];
-//                    }
-//                    i--;
-//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
-//                    Token newToken(ID,finalStr2);
-//                    result.emplace_back(newToken,file.cur_ind);
-                }
-                else if(tempStr=="write"){
-                    writeToken(reserved_words[7],result,file.cur_line_num,file,fileOut,"write");
-                    //-------------------------------------variable write---------------------------
-//                    tempStr="";
-//                    i++;
-//                    while (str[i]!=';') {
-//                        tempStr += str[i++];
-//                    }
-//                    i--;
-//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
-//                    Token newToken(ID,finalStr2);
-//                    result.emplace_back(newToken,file.cur_ind);
-                }
-                else if(tempStr=="if"){
-                    writeToken(reserved_words[0],result,file.cur_line_num,file,fileOut,"if");
-                }
-                else if(tempStr=="else"){
-                    writeToken(reserved_words[2],result,file.cur_line_num,file,fileOut,"else");
-                }
-                else if(tempStr=="then"){
-                    writeToken(reserved_words[1],result,file.cur_line_num,file,fileOut,"then");
-                }
-                else if(tempStr=="end"){
-                    writeToken(reserved_words[3],result,file.cur_line_num,file,fileOut,"end");
-                }
-                else if(tempStr=="until"){
-                    writeToken(reserved_words[5],result,file.cur_line_num,file,fileOut,"until");
-                }
-                else if(tempStr=="repeat"){
-                    writeToken(reserved_words[4],result,file.cur_line_num,file,fileOut,"repeat");
-                }
-                else {
+                if(tempStr[tempStr.size()-1]==' ' || tempStr[tempStr.size()-1]=='\n')
+                    tempStr.pop_back();
+
+                if(!isReservedWord(tempStr,result,file.cur_line_num,file,fileOut)){
                     endingPoint:
                     string type;
-                    if(tempStr[0]>='0' && tempStr[0]<='9') type="num";
-                    else if((tempStr[0]>='a'&&tempStr[0]<='z') || (tempStr[0]>='A'&&tempStr[0]<='Z')) type="id";
-                    else type="operation";
+                    //check type of characters of tempStr as string...
+                    if(tempStr[0]>='0' && tempStr[0]<='9') type="num"; // is number
+                    else if((tempStr[0]>='a'&&tempStr[0]<='z') || (tempStr[0]>='A'&&tempStr[0]<='Z')) type="id"; // is variable
+                    else type="operation"; // is operation or error
 
+                    // if characters is operation or error
                     if(type=="operation"){
-
                         if(tempStr=="+"){
                             writeToken(symbolic_tokens[3],result,file.cur_line_num,file,fileOut,"+");
                         }
@@ -393,27 +379,26 @@ int main() {
                         else if((tempStr!="\n" && tempStr!=" " && tempStr!=";" && tempStr!="")|| (!IsDigit(tempStr[0]) && !IsLetterOrUnderscore(tempStr[0]) && (tempStr!="\n" && tempStr!=" " && tempStr!=";" && tempStr!=""))){
                             writeToken(24,result,file.cur_line_num,file,fileOut,tempStr);
                         }
-
-//                        if(tempStr[]&&!tempStr.empty()) str=tempStr.substr(1);
                     }
-                    //if left hand side is number
+                    //if characters is number
                     else if(type=="num"){
                         left="";right="";op="";
                         int j=0;
+                        // loop to get all contiguous numbers and store it in left variable
                         for(;j<tempStr.size();j++){
                             if((tempStr[j]>='0' && tempStr[j]<='9')) left+=tempStr[j];
-                            else {break;}
+                            else break;
                         }
-                        //-----------------------------------------------left-----------------------------------------------
+                        //-----------------------------------------------write left that stored sequence of numbers------------------
                         writeToken(22,result,file.cur_line_num,file,fileOut,left);
-
+                        // if tempStr not number only !
                         if(tempStr.size()!=left.size()){
-                            //-----------------------------------------------op-----------------------------------------------
+                            //-----------------------------------------------check operation exist-----------------------------------
                             for(;j<tempStr.size();j++){
-                                while (tempStr[j]==' ') continue;
+                                while (tempStr[j]==' ') continue; // to ignore the spaces
+                                // if operation exist after number ... check type of it
                                 if((tempStr[j]>=':' && tempStr[j]<='>') || (tempStr[j]>='(' && tempStr[j]<='/') || (tempStr[j]=='^')) {
                                     op+=tempStr[j];
-
                                     if(op=="+"){
                                         writeToken(symbolic_tokens[3],result,file.cur_line_num,file,fileOut,"+");op="";
                                     }
@@ -451,82 +436,39 @@ int main() {
                                         writeToken(24,result,file.cur_line_num,file,fileOut, op);op="";
                                     }
                                 }
-                                else if(IsDigit(tempStr[j]) || IsLetterOrUnderscore(tempStr[j])) break;
+                                else if(IsDigit(tempStr[j]) || IsLetterOrUnderscore(tempStr[j])) break; // if the character number or identifier
                                 else {
                                     string strSym="";strSym+=tempStr[j];
                                     writeToken(24,result,file.cur_line_num,file,fileOut, strSym);
                                 }
                             }
-                            //-----------------------------------------------right-----------------------------------------------
-                            for(;j<tempStr.size();j++){
+                            //store the rest of string to check it after collect the left part
+                            for(;j<tempStr.size();j++)
                                 right+=tempStr[j];
-                            }
                             tempStr=right;
                             goto endingPoint;
                         }
                     }
-                    //if left hand side is variable
+                    //if characters is identifier
                     else {
                         left="";right="";op="";
                         int j=0;
+                        // loop to get all contiguous characters and store it in left variable
                         for(;j<tempStr.size();j++){
                             if((tempStr[j]>='A' && tempStr[j]<='Z') || (tempStr[j]>='a' && tempStr[j]<='z')) left+=tempStr[j];
-                            else {break;}
+                            else break;
                         }
-                        if(left=="read") {
-                            writeToken(reserved_words[6],result,file.cur_line_num,file,fileOut,"read");
-                            //-------------------------------------variable read---------------------------
-//                    tempStr="";
-//                    i++;
-//                    while (str[i]!=';') {
-//                        tempStr += str[i++];
-//                    }
-//                    i--;
-//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
-//                    Token newToken(ID,finalStr2);
-//                    result.emplace_back(newToken,file.cur_ind);
-                        }
-                        else if(left=="write"){
-                            writeToken(reserved_words[7],result,file.cur_line_num,file,fileOut,"write");
-                            //-------------------------------------variable write---------------------------
-//                    tempStr="";
-//                    i++;
-//                    while (str[i]!=';') {
-//                        tempStr += str[i++];
-//                    }
-//                    i--;
-//                    writeToken(21,result,file.cur_line_num,file,fileOut,tempStr);
-//                    Token newToken(ID,finalStr2);
-//                    result.emplace_back(newToken,file.cur_ind);
-                        }
-                        else if(left=="if"){
-                            writeToken(reserved_words[0],result,file.cur_line_num,file,fileOut,"if");
-                        }
-                        else if(left=="else"){
-                            writeToken(reserved_words[2],result,file.cur_line_num,file,fileOut,"else");
-                        }
-                        else if(left=="then"){
-                            writeToken(reserved_words[1],result,file.cur_line_num,file,fileOut,"then");
-                        }
-                        else if(left=="end"){
-                            writeToken(reserved_words[3],result,file.cur_line_num,file,fileOut,"end");
-                        }
-                        else if(left=="until"){
-                            writeToken(reserved_words[5],result,file.cur_line_num,file,fileOut,"until");
-                        }
-                        else if(left=="repeat"){
-                            writeToken(reserved_words[4],result,file.cur_line_num,file,fileOut,"repeat");
-                        }
-                        else writeToken(21,result,file.cur_line_num,file,fileOut,left);
+                        // check type of identifier is variable or reservedWord
+                        if(!isReservedWord(left,result,file.cur_line_num,file,fileOut))
+                            writeToken(21,result,file.cur_line_num,file,fileOut,left);
 
-                        cout<<left<<endl<<tempStr[j]<<endl;
+                        // if tempStr not variable (or reservedWord) only !
                         if(tempStr.size()!=left.size()){
-                            //-----------------------------------------------op-----------------------------------------------
+                            // if operation exist after variable or reservedWord ... check type of it
                             for(;j<tempStr.size();j++){
-                                while (tempStr[j]==' ') continue;
+                                while (tempStr[j]==' ') continue; // ignore the spaces
                                 if((tempStr[j]>=':' && tempStr[j]<='>') || (tempStr[j]>='(' && tempStr[j]<='/') || (tempStr[j]=='^')) {
                                     op+=tempStr[j];
-
                                     if(op=="+"){
                                         writeToken(symbolic_tokens[3],result,file.cur_line_num,file,fileOut,"+");op="";
                                     }
@@ -570,26 +512,40 @@ int main() {
                                     writeToken(24,result,file.cur_line_num,file,fileOut, strSym);
                                 }
                             }
-                            //-----------------------------------------------right-----------------------------------------------
-                            for(;j<tempStr.size();j++){
+                            //store the rest of string to check it after collect the left part
+                            for(;j<tempStr.size();j++)
                                 right+=tempStr[j];
-                            }
                             tempStr=right;
                             goto endingPoint;
                         }
                     }
                 }
+                // if the line ended by semicolon...
                 if(checkSemi){
                     writeToken(symbolic_tokens[8],result,file.cur_line_num,file,fileOut,";");
-                    checkSemi=false;
+                    checkSemi=false; // to check this only one
                 }
             }
         }
         file.SkipSpaces();
         file.GetNewLine();
-        if(feof(file.getFile()) && checkLoop) {lastLine=file.cur_line_num;checkLoop=false;goto endingPoint0;}
+        //this to check the end line by include it to checking and get tokens from it...
+        if(feof(file.getFile()) && checkLoop) {
+            lastLine=file.cur_line_num; // to store the end line to write it after checking
+            checkLoop=false; // to break from while loop after checking
+            goto endingPoint0; // only one going
+        }
     }
-    writeToken(23,result,lastLine,file,fileOut,TokenTypeStr[23]);
+    writeToken(23,result,lastLine,file,fileOut,TokenTypeStr[23]); // write token of last line
     cout<<"\nScanning Process Completed Successfully."<<endl;
+}
+
+
+int main() {
+    InFile file(
+            R"(D:\My Home\Courses\#My Faculty\Fourth Level\First Semester\Compilers\Assignments\Assignment 1\CompilersTask_1_Scanner\input.txt)");
+    OutFile fileOut(
+            R"(D:\My Home\Courses\#My Faculty\Fourth Level\First Semester\Compilers\Assignments\Assignment 1\CompilersTask_1_Scanner\output.txt)");
+    Scanner(file,fileOut);
     return 0;
 }
