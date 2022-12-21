@@ -1,11 +1,33 @@
-{ multi line
-Comment
+{
+    read input x to calc factorial
+    read input w to calc power for it
+    enter num to calc multiplication table up to 12
 }
-
-read 575757x; {another comment}
-read 141j;
-if 0<x  {do something}
-    x:=x-1;
-else
-    j:=4
+one := 1
+read x; {input an integer}
+if 0<x then {compute only if x>=1}
+  fact:=one
+  repeat
+    write x;
+    fact := fact * x;
+    x:=x-1
+  until x=0;
+  write fact {output factorial}
 end
+read w
+write w^2
+
+read num
+temp := 1
+repeat
+    write num*temp;
+    temp := temp + 1
+until temp=13
+write 10*20+50-10+1000
+samah := 10000 + (10000 * 2)
+khaled := 5000 + 5000 + 10000 + 7000
+ahmed := 2000 * 10 + 5^3
+write samah
+write khaled
+write ahmed
+write 5^3^2^1-1000000  {1953125-1000000}

@@ -1,9 +1,0 @@
-Error in line 5: Identifier expected after read stmt, variable name may be wrong
-Error in line 5: Variable Name not correct you should begin with _ or any Character
-Error in line 5: Assignment(:=) operator expected
-Error in line 5: Unexpected Error
-Error in line 6: Identifier expected after read stmt, variable name may be wrong
-Error in line 6: Variable Name not correct you should begin with _ or any Character
-Error in line 6: Assignment(:=) operator expected
-Error in line 6: Unexpected Error
-Error in line 8: THEN stmt expected after IF Condition

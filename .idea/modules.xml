@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/CompilersTask_2_Parser.iml" filepath="$PROJECT_DIR$/.idea/CompilersTask_2_Parser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CodeGenerator.iml" filepath="$PROJECT_DIR$/.idea/CodeGenerator.iml" />
     </modules>
   </component>
 </project>

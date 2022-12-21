@@ -1,8 +1,8 @@
-# Install script for directory: D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 2/CompilersTask_2_Parser
+# Install script for directory: D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 3/CodeGenerator
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/CompilersTask_2_Parser")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/CodeGenerator")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 2/CompilersTask_2_Parser/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 3/CodeGenerator/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
