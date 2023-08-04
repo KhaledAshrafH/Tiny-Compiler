@@ -24,28 +24,29 @@ The compiler is implemented in three phases:
 ### 1. Scanning (Tokenization)
 The scanner takes a source code file written in the TINY language as an input and outputs a text file that contains the tokens found in the input file. Each token is represented on a single line in the following format: `[line number] [token type] [token value]`. For example:
 
-    ```
-    [1] if (If)
-    [1] x (ID)
-    [2] 200 (Num) 
-    ```
+  ```
+  [1] if (If)
+  [1] x (ID)
+  [2] 200 (Num) 
+  ```
 
 ### 2. Parsing (Syntax Analysis)
 The parser takes the path of a source code file written in the TINY language as an input and outputs the terminal (leaf) nodes of the parse tree of the input file to the terminal or throws an exception once an error is found. For example:
 
-    ```
-    input file content: if x < y
-    output:
-    [If]
-       [Oper][LessThan]
-          [ID][x]
-          [ID][y]
+  ```
+  input file content: if x < y
+  output:
+  [If]
+     [Oper][LessThan]
+        [ID][x]
+        [ID][y]
 
-    input file content: temp := 20
-    output:
-    [Assign][temp]
-          [Num][20]
-    ```
+
+  input file content: temp := 20
+  output:
+  [Assign][temp]
+        [Num][20]
+  ```
 
 ### 3. Code Generation (Semantic Analysis)
 The code generator takes the path of a source code file written in the TINY language as an input and outputs three things:
@@ -60,14 +61,15 @@ The code generator takes the path of a source code file written in the TINY lang
   - The syntax tree of the code, which is similar to the output of the previous phase but with each non-void (Integer or Boolean) node followed by its data type in square brackets. For example:
 
       ```
-      input file content: if x < y
+      input file: if x < y
       output:
       [If]
          [Oper][LessThan][Boolean]
             [ID][x][Integer]
             [ID][y][Integer]
 
-      input file content: temp := 20
+
+      input file: temp := 20
       output:
       [Assign]
          [ID][temp][Integer]
@@ -77,7 +79,7 @@ The code generator takes the path of a source code file written in the TINY lang
   - The simulation of the compilation of the code, which mimics the execution of the code as if it was running on a machine. The only parts that interact with the terminal in this step are `read` and `write` statements. For example:
 
       ```
-      input file content: read x; write x + 5;
+      input file: read x; write x + 5;
       output:
       Enter x: 10
       val: 15
@@ -123,6 +125,7 @@ Symbol table:
 [Var=n][Mem=0][Line=2][Line=5][Line=6]
 [Var=fact][Mem=1][Line=3][Line=4]
 
+
 Syntax tree:
 [Read]
    [ID][n][Integer]
@@ -142,6 +145,7 @@ Syntax tree:
          [Num][1][Integer]
 [Write]
    [ID][fact][Integer]
+
 
 Simulation:
 Enter n: 5
@@ -171,6 +175,7 @@ Symbol table:
 [Var=b][Mem=1][Line=4][Line=8][Line=10]
 [Var=c][Mem=0][Line=6]
 
+
 Syntax tree:
 [Read]
    [ID]n[Integer
@@ -196,6 +201,7 @@ Syntax tree:
       [ID]b[Integer
    [Assign]b
       [ID]c[Integer
+
 
 Simulation:
 Enter n: 10
