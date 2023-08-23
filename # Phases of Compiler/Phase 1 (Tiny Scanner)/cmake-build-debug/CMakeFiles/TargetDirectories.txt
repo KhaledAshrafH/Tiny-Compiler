@@ -1,3 +1,0 @@
-D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 1/CompilersTask_1_Scanner/cmake-build-debug/CMakeFiles/CompilersTask_1_Scanner.dir
-D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 1/CompilersTask_1_Scanner/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/My Home/Courses/#My Faculty/Fourth Level/First Semester/Compilers/Assignments/Assignment 1/CompilersTask_1_Scanner/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,7 +1,0 @@
-# ninja log v5
-2	586	6914394887517178	CMakeFiles/CompilersTask_2_Parser.dir/main.cpp.obj	73ef6ba188e564be
-586	672	6914394888351686	CompilersTask_2_Parser.exe	33d6083f112a30e6
-3	694	6914395989278397	CMakeFiles/CompilersTask_2_Parser.dir/main.cpp.obj	73ef6ba188e564be
-694	805	6914395990360111	CompilersTask_2_Parser.exe	33d6083f112a30e6
-3	1275	6916227874557834	CMakeFiles/CompilersTask_2_Parser.dir/main.cpp.obj	73ef6ba188e564be
-1276	1549	6916227877254366	CompilersTask_2_Parser.exe	33d6083f112a30e6
